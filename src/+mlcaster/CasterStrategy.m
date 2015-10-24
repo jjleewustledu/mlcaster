@@ -1,5 +1,6 @@
 classdef CasterStrategy 
-	%% CASTERSTRATEGY abstract strategy to a strategy design pattern
+	%% CASTERSTRATEGY abstract strategy to a strategy design pattern.
+    %  It is DEPRECATED as of 2015 Oct 20.
     
 	%  $Revision: 2626 $
  	%  was created $Date: 2013-09-16 01:17:42 -0500 (Mon, 16 Sep 2013) $
@@ -39,7 +40,7 @@ classdef CasterStrategy
                     strat = ImagingContextCaster(p.Results.imobj);
                 case 'mlfourd.NIfTI'
                     strat = NIfTICaster(p.Results.imobj); 
-                case 'mlfourd.BlurredNIfTI'
+                case 'mlfourd.BlurringNIfTId'
                     strat = BlurredNIfTICaster(p.Results.imobj);
                 otherwise
                     if (isa(p.Results.imobj, 'mlfourd.ImagingComponent'))
@@ -78,7 +79,7 @@ classdef CasterStrategy
                     imobj = this.cast2numeric;
                 case  {'mlfourd.NIfTI' 'NIfTI'}
                     imobj = this.cast2NIfTI;
-                case  {'mlfourd.BlurredNIfTI' 'BlurredNIfTI'}
+                case  {'mlfourd.BlurringNIfTId' 'BlurringNIfTId'}
                     imobj = this.cast2BlurredNIfTI;
                 case  {'mlfourd.NiiBrowser' 'NiiBrowser'}
                     imobj = this.cast2NiiBrowser;
@@ -122,11 +123,11 @@ classdef CasterStrategy
         function bnii  = image2BlurredNIfTI(im)
             import mlfourd.*;
             if (isa(im, 'mlfourd.ImagingContext'))
-                bnii = BlurredNIfTI(im.nifti); return; end
+                bnii = BlurringNIfTId(im.nifti); return; end
             if (isa(im, 'mlfourd.ImagingComponent'))
-                bnii = BlurredNIfTI(im.cachedNext); return; end
+                bnii = BlurringNIfTId(im.cachedNext); return; end
             assert(isa(im, 'mlfourd.NIfTIInterface'));
-            bnii     = BlurredNIfTI(im);
+            bnii     = BlurringNIfTId(im);
         end
         function niib = image2NiiBrowser(im)
             niib = mlfourd.NiiBrowser( ...
@@ -179,7 +180,7 @@ classdef CasterStrategy
         function bnii = cast2BlurredNIfTI(this)
             import mlcaster.*; 
             bnii = this.image2BlurredNIfTI(this.cast2image);
-            assert(isa(bnii, 'mlfourd.BlurredNIfTI'));
+            assert(isa(bnii, 'mlfourd.BlurringNIfTId'));
         end
         function niib = cast2NiiBrowser(this)
             import mlcaster.*; 

@@ -1,5 +1,7 @@
 classdef CharCaster < mlcaster.CasterStrategy
-	%% CHARCASTER part of a strategy design pattern with CasterStrategy
+	%% CHARCASTER part of a strategy design pattern with CasterStrategy.
+    %  It is DEPRECATED as of 2015 Oct 20.
+    
 	%  $Revision: 2603 $
  	%  was created $Date: 2013-09-07 19:13:01 -0500 (Sat, 07 Sep 2013) $
  	%  by $Author: jjlee $, 

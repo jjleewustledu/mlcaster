@@ -1,5 +1,6 @@
 classdef MGHCaster < mlcaster.CasterStrategy 
-	%% MGHCASTER is part of a strategy design pattern with CasterStrategy
+	%% MGHCASTER is part of a strategy design pattern with CasterStrategy.
+    %  It is DEPRECATED as of 2015 Oct 20.
 
 	%  $Revision$ 
  	%  was created $Date$ 

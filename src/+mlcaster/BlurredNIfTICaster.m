@@ -1,5 +1,6 @@
 classdef BlurredNIfTICaster < mlcaster.CasterStrategy
-	%% BLURREDNIFTICASTER is part of a strategy design pattern with CasterStrategy
+	%% BLURREDNIFTICASTER is part of a strategy design pattern with CasterStrategy.
+    %  It is DEPRECATED as of 2015 Oct 20.
     
 	%  $Revision: 2542 $
  	%  was created $Date: 2013-08-19 11:36:23 -0500 (Mon, 19 Aug 2013) $
@@ -20,7 +21,7 @@ classdef BlurredNIfTICaster < mlcaster.CasterStrategy
             pth = fileparts(this.imagingObject.fqfilename);
         end
         function imobj = get.imagingObject(this)
-            assert(isa(this.imagingObject_, 'mlfourd.BlurredNIfTI'));
+            assert(isa(this.imagingObject_, 'mlfourd.INIfTI'));
             imobj = this.imagingObject_;
         end
         
@@ -37,7 +38,7 @@ classdef BlurredNIfTICaster < mlcaster.CasterStrategy
             fp = this.imagingObject.fqfileprefix;
         end
         function im   = cast2image(this)
-            assert(isa(this.imagingObject, 'mlfourd.BlurredNIfTI'));
+            assert(isa(this.imagingObject, 'mlfourd.INIfTI'));
             im = this.imagingObject.component;
         end
  	end 

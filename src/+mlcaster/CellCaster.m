@@ -1,7 +1,8 @@
 classdef CellCaster < mlcaster.CasterStrategy
 	%% CELLCASTER casts a variety of interpretable image objects to canonical image types or image references such as
-    %  numeric arrays, NIfTI, NiiBrowser, ImagingComponents; cell-array may be heterogeneous
-    %
+    %  numeric arrays, NIfTI, NiiBrowser, ImagingComponents; cell-array may be heterogeneous.
+    %  It is DEPRECATED as of 2015 Oct 20.
+    
 	%  $Revision: 2626 $
  	%  was created $Date: 2013-09-16 01:17:42 -0500 (Mon, 16 Sep 2013) $
  	%  by $Author: jjlee $, 
