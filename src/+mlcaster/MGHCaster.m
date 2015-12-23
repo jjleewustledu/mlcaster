@@ -1,6 +1,5 @@
 classdef MGHCaster < mlcaster.CasterStrategy 
 	%% MGHCASTER is part of a strategy design pattern with CasterStrategy.
-    %  It is DEPRECATED as of 2015 Oct 20.
 
 	%  $Revision$ 
  	%  was created $Date$ 
@@ -25,7 +24,7 @@ classdef MGHCaster < mlcaster.CasterStrategy
         end
         
  		function this = MGHCaster(varargin) 
- 			%% NIFTICASTER 
+ 			%% MGHCASTER 
  			%  Usage:  obj = MGHCaster(...) % cf. CasterStrategy
 
  			this = this@mlcaster.CasterStrategy(varargin{:}); 

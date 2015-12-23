@@ -1,7 +1,6 @@
 classdef CellCaster < mlcaster.CasterStrategy
 	%% CELLCASTER casts a variety of interpretable image objects to canonical image types or image references such as
-    %  numeric arrays, NIfTI, NiiBrowser, ImagingComponents; cell-array may be heterogeneous.
-    %  It is DEPRECATED as of 2015 Oct 20.
+    %  numeric arrays, NIfTId, NIfTI, NiiBrowser, ImagingComponents; cell-array may be heterogeneous.
     
 	%  $Revision: 2626 $
  	%  was created $Date: 2013-09-16 01:17:42 -0500 (Mon, 16 Sep 2013) $
@@ -95,6 +94,10 @@ classdef CellCaster < mlcaster.CasterStrategy
         function nii  = cast2NIfTI(this)
             dprintf('inside CellCaster.cast2NIfTI\n'); 
             nii = mlcaster.CellCaster.cellcast(this.imagingObject, 'mlfourd.NIfTI');
+        end
+        function nii  = cast2NIfTId(this)
+            dprintf('inside CellCaster.cast2NIfTId\n'); 
+            nii = mlcaster.CellCaster.cellcast(this.imagingObject, 'mlfourd.NIfTId');
         end
         function niib = cast2NiiBrowser(this)
             dprintf('inside CellCaster.cast2NiiBrowser\n');

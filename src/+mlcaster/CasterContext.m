@@ -2,7 +2,6 @@ classdef CasterContext < handle
     %% CASTERCONTEXT provides the context of a strategy design pattern with CasterStrategy,
     %  dispatching properties & methods to concrete classes that subclass CasterStrategy.
     %  Castercontext must be handle so as to allow run-time changes of concrete strategies.
-    %  It is DEPRECATED as of 2015 Oct 20.
     
     %  $Revision: 2626 $
     %  was created $Date: 2013-09-16 01:17:42 -0500 (Mon, 16 Sep 2013) $
@@ -24,7 +23,8 @@ classdef CasterContext < handle
             %  p = imcast(p, typ)
             %             ^ image-object:  fileprefix, filename, ...
             %                              numeric, ...
-            %                              mlpatterns.ValueList, mlfourd.NIfTI, mlfourd.NiiBrowser, ...
+            %                              mlpatterns.ValueList, mlfourd.NIfTI, mlfourd.NIfTId, mlfourd.NiiBrowser, ...
+            %                              mlfourd.ImagingComponent, mlfourd.ImagingContext, ...
             %                ^ target type named as string
             %                  e. g.:  char, numeric_types, abstract_image_types
             %  ^ image-object casted to target type

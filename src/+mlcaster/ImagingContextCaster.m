@@ -1,6 +1,5 @@
 classdef ImagingContextCaster < mlcaster.CasterStrategy
 	%% IMAGINGCONTEXTCASTER   
-    %  It is DEPRECATED as of 2015 Oct 20.
 
 	%  $Revision: 2626 $ 
  	%  was created $Date: 2013-09-16 01:17:42 -0500 (Mon, 16 Sep 2013) $ 
@@ -14,6 +13,7 @@ classdef ImagingContextCaster < mlcaster.CasterStrategy
         defaultPath
         imagingObject
         nifti
+        niftid
         imcomponent
     end
     
@@ -27,6 +27,9 @@ classdef ImagingContextCaster < mlcaster.CasterStrategy
         end
         function nii   = get.nifti(this)
             nii = this.imagingObject.nifti;
+        end
+        function nii   = get.niftid(this)
+            nii = this.imagingObject.niftid;
         end
         function imcmp = get.imcomponent(this)
             imcmp = this.imagingObject.imcomponent;

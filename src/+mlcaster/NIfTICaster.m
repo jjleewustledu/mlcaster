@@ -1,6 +1,5 @@
 classdef NIfTICaster < mlcaster.CasterStrategy
-	%% NIFTICASTER is part of a strategy design pattern with CasterStrategy
-    %  It is DEPRECATED as of 2015 Oct 20.
+	%% NIFTICASTER is part of a strategy design pattern with CasterStrategy.
     
 	%  $Revision: 2542 $
  	%  was created $Date: 2013-08-19 11:36:23 -0500 (Mon, 19 Aug 2013) $
@@ -39,7 +38,7 @@ classdef NIfTICaster < mlcaster.CasterStrategy
         end
         function im   = cast2image(this)
             assert(isa(this.imagingObject, 'mlfourd.NIfTI'));
-            im = this.imagingObject;
+            im = mlfourd.NIfTId(this.imagingObject);
         end
  	end 
 

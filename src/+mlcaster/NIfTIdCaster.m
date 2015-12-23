@@ -1,14 +1,13 @@
-classdef BlurredNIfTICaster < mlcaster.CasterStrategy
-	%% BLURREDNIFTICASTER is part of a strategy design pattern with CasterStrategy.
-    %  It is DEPRECATED as of 2015 Oct 20.
+classdef NIfTIdCaster < mlcaster.CasterStrategy
+	%% NIFTIDCASTER is part of a strategy design pattern with CasterStrategy.
     
 	%  $Revision: 2542 $
  	%  was created $Date: 2013-08-19 11:36:23 -0500 (Mon, 19 Aug 2013) $
  	%  by $Author: jjlee $, 
  	%  last modified $LastChangedDate: 2013-08-19 11:36:23 -0500 (Mon, 19 Aug 2013) $
- 	%  and checked into repository $URL: file:///Users/jjlee/Library/SVNRepository_2012sep1/mpackages/mlcaster/src/+mlcaster/trunk/NIfTICaster.m $, 
+ 	%  and checked into repository $URL: file:///Users/jjlee/Library/SVNRepository_2012sep1/mpackages/mlcaster/src/+mlcaster/trunk/NIfTIdCaster.m $, 
  	%  developed on Matlab 8.1.0.604 (R2013a)
- 	%  $Id: NIfTICaster.m 2542 2013-08-19 16:36:23Z jjlee $
+ 	%  $Id: NIfTIdCaster.m 2542 2013-08-19 16:36:23Z jjlee $
  	%  N.B. classdef (Sealed, Hidden, InferiorClasses = {?class1,?class2}, ConstructOnLoad)
 
     properties (Dependent)
@@ -25,9 +24,9 @@ classdef BlurredNIfTICaster < mlcaster.CasterStrategy
             imobj = this.imagingObject_;
         end
         
- 		function this = BlurredNIfTICaster(varargin) 
- 			%% NIFTICASTER 
- 			%  Usage:  obj = NIfTICaster() 
+ 		function this = NIfTIdCaster(varargin) 
+ 			%% NIfTIdCaster 
+ 			%  Usage:  obj = NIfTIdCaster() 
 
  			this = this@mlcaster.CasterStrategy(varargin{:}); 
  		end %  ctor 
@@ -38,8 +37,8 @@ classdef BlurredNIfTICaster < mlcaster.CasterStrategy
             fp = this.imagingObject.fqfileprefix;
         end
         function im   = cast2image(this)
-            assert(isa(this.imagingObject, 'mlfourd.INIfTI'));
-            im = this.imagingObject.component;
+            assert(isa(this.imagingObject, 'mlfourd.NIfTId'));
+            im = this.imagingObject;
         end
  	end 
 

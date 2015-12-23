@@ -1,6 +1,5 @@
 classdef NumericCaster < mlcaster.CasterStrategy
-	%% NUMERICCASTER part of a strategy design pattern with CasterStrategy.  
-    %  It is DEPRECATED as of 2015 Oct 20.
+	%% NUMERICCASTER part of a strategy design pattern with CasterStrategy.
     
 	%  $Revision: 2542 $
  	%  was created $Date: 2013-08-19 11:36:23 -0500 (Mon, 19 Aug 2013) $

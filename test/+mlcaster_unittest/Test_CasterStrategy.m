@@ -1,4 +1,4 @@
-classdef Test_CasterStrategy < matlab.unittest.TestCase
+classdef Test_CasterStrategy < mlfourd_unittest.Test_mlfourd
 	%% TEST_CASTERSTRATEGY 
 
 	%  Usage:  >> results = run(mlcaster_unittest.Test_CasterStrategy)
@@ -17,8 +17,8 @@ classdef Test_CasterStrategy < matlab.unittest.TestCase
  		registry
  		testObj
  		casterStrat
-        dwi2_fqfn = fullfile(getenv('MLUNIT_TEST_PATH'), 'np755/mm01-020_p7377_2009feb5/fsl/adc_default_on_t1_default.nii.gz')
-        dwi3_fqfn = fullfile(getenv('MLUNIT_TEST_PATH'), 'np755/mm01-020_p7377_2009feb5/fsl/dwi_002_on_t1_005_shadowreg_dwi_003.nii.gz')
+        dwi2_fqfn = fullfile(getenv('MLUNIT_TEST_PATH'), 'cvl/np755/mm01-020_p7377_2009feb5/fsl/adc_default_on_t1_default.nii.gz')
+        dwi3_fqfn = fullfile(getenv('MLUNIT_TEST_PATH'), 'cvl/np755/mm01-020_p7377_2009feb5/fsl/dwi_002_on_t1_005_shadowreg_dwi_003.nii.gz')
  	end
 
 	methods (Test) 		
@@ -28,33 +28,39 @@ classdef Test_CasterStrategy < matlab.unittest.TestCase
             this.verifyClass(this.casterStrat.castto('fqfileprefix'),     'char');            
             this.verifyClass(this.casterStrat.castto('filename'),         'char');
             this.verifyClass(this.casterStrat.castto('fileprefix'),       'char');
-            this.verifyClass(this.casterStrat.castto('NIfTI'),            'mlfourd.NIfTIInterface');
-            this.verifyClass(this.casterStrat.castto('ImagingComponent'), 'mlfourd.ImagingComponent');
+            this.verifyClass(this.casterStrat.castto('NIfTI'),            'mlfourd.NIfTI');
+            this.verifyClass(this.casterStrat.castto('NIfTId'),           'mlfourd.NIfTId');
+            this.verifyClass(this.casterStrat.castto('ImagingComponent'), 'mlfourd.ImagingSeries');
         end 
         function test_casttoCharCell(this)
             caster = mlcaster.CasterStrategy.newStrategy(fullfile(this.fslPath, '*t1*.nii.gz'));
             cobj = caster.castto('fileprefix');
-            this.verifyGreaterThanOrEqual(length(cobj), 80);
-            this.verifyEqual('adc_default_on_bt1_default_restore', cobj{1});
+            this.verifyGreaterThanOrEqual(length(cobj), 71);
+            this.verifyEqual('MNI152_T1_2mm_brain', cobj{1});
             cobj = caster.castto('fqfilename');
-            this.verifyGreaterThanOrEqual(length(cobj), 79);
+            this.verifyGreaterThanOrEqual(length(cobj), 71);
             this.verifyTrue(lexist(cobj{1}, 'file'));
         end
         function test_casttoImageCell(this)            
             import mlfourd.*;
+            fqfn = '/Volumes/InnominateHD3/Local/test/cvl/np755/mm01-020_p7377_2009feb5/fsl/dwi_002_on_t1_005.nii.gz';
             caster = mlcaster.CasterStrategy.newStrategy(fullfile(this.fslPath, 'dwi*t1*.nii.gz'));
             cobj   = caster.castto('fqfilename');
-                     this.verifyEqual(this.dwi2_fqfn, cobj{1});
+                     this.verifyEqual(fqfn, cobj{1});
             cobj   = caster.castto('mlfourd.NIfTI');
-                     this.verifyEqual(NIfTI.load(this.dwi2_fqfn), cobj{1});
+                     this.verifyEqual(NIfTI.load(fqfn), cobj{1});
+            cobj   = caster.castto('mlfourd.NIfTId');
+            cobj_  = NIfTId.load(fqfn);
+                     this.verifyEqual(cobj_, cobj{1});
             cobj   = caster.castto('mlfourd.ImagingComponent');
-            imser  = ImagingSeries.load(this.dwi2_fqfn);
+            imser  = ImagingSeries.load(fqfn);
                      this.verifyEqual(single(imser.img), single(cobj{1}.img));
         end
  	end
 
  	methods (TestClassSetup)
  		function setupCasterStrategy(this)
+            cd(this.fslPath); 
             this.casterStrat = mlcaster.CasterStrategy.newStrategy(this.t1_fqfn);
             mlbash(sprintf('rm %s', fullfile(this.fslPath, '*_shadowreg_*')));
  		end
