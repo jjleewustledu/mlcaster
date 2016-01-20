@@ -37,13 +37,13 @@ classdef CharCaster < mlcaster.CasterStrategy
     
 	methods (Access = 'protected')
         function fp   = cast2fqfileprefix(this)
-            [pth,fp] = filepartsx(this.imagingObject, mlfourd.NIfTIInterface.FILETYPE_EXT);
+            [pth,fp] = filepartsx(this.imagingObject, mlfourd.INIfTI.FILETYPE_EXT);
             if (isempty(pth))
                 pth = this.defaultPath; end
             fp = fullfile(pth, fp);
         end        
         function im   = cast2image(this)
-            im = mlfourd.NIfTI.load([this.cast2fqfileprefix mlfourd.NIfTIInterface.FILETYPE_EXT]);
+            im = mlfourd.NIfTI.load([this.cast2fqfileprefix mlfourd.INIfTI.FILETYPE_EXT]);
         end
     end 
     

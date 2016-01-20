@@ -145,7 +145,7 @@ classdef CasterStrategy
                 return
             end
             if (isa(im, 'mlfourd.ImagingComponent'))
-                niid = NIfTId(im.cachedNext); 
+                niid = NIfTId(im.cached); 
                 return
             end
             niid = NIfTId(im);

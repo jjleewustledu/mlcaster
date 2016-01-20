@@ -14,7 +14,7 @@ classdef ImagingContextCaster < mlcaster.CasterStrategy
         imagingObject
         nifti
         niftid
-        imcomponent
+        composite
     end
     
     methods
@@ -31,8 +31,8 @@ classdef ImagingContextCaster < mlcaster.CasterStrategy
         function nii   = get.niftid(this)
             nii = this.imagingObject.niftid;
         end
-        function imcmp = get.imcomponent(this)
-            imcmp = this.imagingObject.imcomponent;
+        function imcmp = get.composite(this)
+            imcmp = this.imagingObject.composite;
         end
         
  		function this = ImagingContextCaster(varargin) 

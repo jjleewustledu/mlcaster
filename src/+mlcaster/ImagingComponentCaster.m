@@ -14,7 +14,6 @@ classdef ImagingComponentCaster < mlcaster.CasterStrategy
     properties (Dependent)
         defaultPath
         imagingObject
-        cachedNext
     end
     
     methods 
@@ -25,8 +24,8 @@ classdef ImagingComponentCaster < mlcaster.CasterStrategy
             assert(isa(this.imagingObject_, 'mlfourd.ImagingComponent'));
             imobj = this.imagingObject_.clone;
         end
-        function cmp   = get.cachedNext(this)
-            cmp = this.imagingObject.cachedNext;
+        function iter  = createIterator(this)
+            iter = this.imagingObject.createIterator;
         end
         
  		function this = ImagingComponentCaster(varargin) 
