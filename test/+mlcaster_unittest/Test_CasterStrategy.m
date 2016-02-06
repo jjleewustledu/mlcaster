@@ -14,7 +14,6 @@ classdef Test_CasterStrategy < mlfourd_unittest.Test_mlfourd
  	
 
 	properties
- 		registry
  		testObj
  		casterStrat
         dwi2_fqfn = fullfile(getenv('MLUNIT_TEST_PATH'), 'cvl/np755/mm01-020_p7377_2009feb5/fsl/adc_default_on_t1_default.nii.gz')
@@ -30,31 +29,25 @@ classdef Test_CasterStrategy < mlfourd_unittest.Test_mlfourd
             this.verifyClass(this.casterStrat.castto('fileprefix'),       'char');
             this.verifyClass(this.casterStrat.castto('NIfTI'),            'mlfourd.NIfTI');
             this.verifyClass(this.casterStrat.castto('NIfTId'),           'mlfourd.NIfTId');
-            this.verifyClass(this.casterStrat.castto('ImagingComponent'), 'mlfourd.ImagingSeries');
         end 
-        function test_casttoCharCell(this)
-            caster = mlcaster.CasterStrategy.newStrategy(fullfile(this.fslPath, '*t1*.nii.gz'));
+        function test_casttoChar(this)
+            caster = mlcaster.CasterStrategy.newStrategy(fullfile(this.fslPath, 't1_default.nii.gz'));
             cobj = caster.castto('fileprefix');
-            this.verifyGreaterThanOrEqual(length(cobj), 71);
-            this.verifyEqual('MNI152_T1_2mm_brain', cobj{1});
+            this.verifyEqual('t1_default', cobj);
             cobj = caster.castto('fqfilename');
-            this.verifyGreaterThanOrEqual(length(cobj), 71);
-            this.verifyTrue(lexist(cobj{1}, 'file'));
+            this.verifyTrue(lexist(cobj, 'file'));
         end
-        function test_casttoImageCell(this)            
+        function test_casttoImage(this)            
             import mlfourd.*;
-            fqfn = '/Volumes/InnominateHD3/Local/test/cvl/np755/mm01-020_p7377_2009feb5/fsl/dwi_002_on_t1_005.nii.gz';
-            caster = mlcaster.CasterStrategy.newStrategy(fullfile(this.fslPath, 'dwi*t1*.nii.gz'));
+            fqfn   = fullfile(this.fslPath, 'dwi_default.nii.gz');
+            caster = mlcaster.CasterStrategy.newStrategy(fqfn);
             cobj   = caster.castto('fqfilename');
-                     this.verifyEqual(fqfn, cobj{1});
+                     this.verifyEqual(fqfn, cobj);
             cobj   = caster.castto('mlfourd.NIfTI');
-                     this.verifyEqual(NIfTI.load(fqfn), cobj{1});
+                     this.verifyEqual(NIfTI.load(fqfn), cobj);
             cobj   = caster.castto('mlfourd.NIfTId');
             cobj_  = NIfTId.load(fqfn);
-                     this.verifyEqual(cobj_, cobj{1});
-            cobj   = caster.castto('mlfourd.ImagingComponent');
-            imser  = ImagingSeries.load(fqfn);
-                     this.verifyEqual(single(imser.img), single(cobj{1}.img));
+                     this.verifyEqual(double(cobj_.img), double(cobj.img)); % diff in datatype which can't be assigned
         end
  	end
 

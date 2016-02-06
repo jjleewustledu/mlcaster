@@ -17,10 +17,10 @@ classdef NIfTICaster < mlcaster.CasterStrategy
     
     methods
         function pth   = get.defaultPath(this) 
+            assert(isa(this.imagingObject_, 'mlfourd.INIfTI'));
             pth = fileparts(this.imagingObject.fqfilename);
         end
         function imobj = get.imagingObject(this)
-            assert(isNIfTI(this.imagingObject_));
             imobj = this.imagingObject_;
         end
         
@@ -34,10 +34,11 @@ classdef NIfTICaster < mlcaster.CasterStrategy
     
 	methods  (Access = 'protected')
         function fp   = cast2fqfileprefix(this)
+            assert(isa(this.imagingObject_, 'mlfourd.INIfTI'));
             fp = this.imagingObject.fqfileprefix;
         end
         function im   = cast2image(this)
-            assert(isa(this.imagingObject, 'mlfourd.NIfTI'));
+            assert(isa(this.imagingObject_, 'mlfourd.INIfTI'));
             im = mlfourd.NIfTId(this.imagingObject);
         end
  	end 

@@ -22,43 +22,37 @@ classdef CasterStrategy
             parse(ip, imobj);
             
             switch (class(ip.Results.imobj))
-                case 'cell'
-                    strat = CellCaster(ip.Results.imobj);
                 case 'char'
                     if (lstrfind(ip.Results.imobj, '*'))
                         strat = CellCaster(ip.Results.imobj);
                         return
                     end
                     strat = CharCaster(ip.Results.imobj);
-                case numeric_types
-                    strat = NumericCaster(ip.Results.imobj);
                 case 'mlfourd.NIfTI'
                     strat = NIfTICaster(ip.Results.imobj); 
                 case 'mlfourd.NiiBrowser'
                     strat = NiiBrowserCaster(ip.Results.imobj);
-                case 'mlfourd.NIfTId'
-                    strat = NIfTIdCaster(ip.Results.imobj); 
-                case 'mlsurfer.MGH'
-                    strat = MGHCaster(ip.Results.imobj);
-                case 'mlfourd.ImagingContext'
-                    strat = ImagingContextCaster(ip.Results.imobj);
                 otherwise
-                    if (isa(ip.Results.imobj, 'mlfourd.ImagingComponent'))
-                        strat = ImagingComponentCaster(ip.Results.imobj); 
+                    if (isnumeric(ip.Results.imobj))
+                        strat = NumericCaster(ip.Results.imobj);
+                        return
+                    end
+                    if (isa(ip.Results.imobj, 'mlfourd.INIfTI'))
+                        strat = INIfTICaster(ip.Results.imobj);
+                        return
+                    end
+                    if (isa(ip.Results.imobj, 'mlfourd.ImagingContext'))
+                        strat = ImagingContextCaster(ip.Results.imobj);
                         return
                     end
                     error('mlcaster:unsupportedTypeClass', 'class(CasterStrategy.newStrategy.im)->%s', class(ip.Results.imobj));
             end
         end
-        function tf    = isSupportedType(tn)
-            if (lstrfind(tn, mlchoosers.ImagingChoosers.SUPPORTED_IMAGE_TYPES))
-                tf = true;
-            else
-                tf = false;
-            end
+        function tf   = isSupportedType(typ)
+            tf = mlfourd.FourdRegistry.isSupportedImageType(typ);
         end
-        function tf    = isSupportedImage(im)
-            tf = mlcaster.CasterStrategy.isSupportedType(class(im));
+        function tf   = isSupportedImage(im)
+            tf =  mlfourd.FourdRegistry.isSupportedImage(im);
         end
     end
     
@@ -82,15 +76,10 @@ classdef CasterStrategy
                     imobj = this.cast2numeric;
                 case  {'mlfourd.NIfTI' 'NIfTI'}
                     imobj = this.cast2NIfTI;
-                case  {'mlfourd.NIfTId' 'NIfTId'}
-                    imobj = this.cast2NIfTId;
                 case  {'mlfourd.NiiBrowser' 'NiiBrowser'}
                     imobj = this.cast2NiiBrowser;
-                case  {'mlsurfer.MGH' 'MGH'}
-                    imobj = this.cast2MGH;
-                case  {'mlfourd.ImagingComponent' 'mlfourd.ImagingSeries' 'mlfourd.ImagingComposite' ...
-                               'ImagingComponent'         'ImagingSeries'         'ImagingComposite'}
-                    imobj = this.cast2ImagingComponent;
+                case  {'mlfourd.NIfTId' 'NIfTId'}
+                    imobj = this.cast2NIfTId;
                 case  'mlfourd.ImagingContext'
                     imobj = this.cast2ImagingContext;
                 otherwise
@@ -111,64 +100,36 @@ classdef CasterStrategy
     end
     
     methods (Static, Access = 'protected')
-        function im   = image2numeric(im)
+        function im = image2numeric(im)
             if (~isnumeric(im))
                 im = mlcaster.CasterStrategy.image2NIfTId(im);
                 im = im.img;
             end
         end        
-        function im   = image2NIfTI(im)
+        function im = image2NIfTI(im)
             if (~isa(im, 'mlfourd.NIfTI'));
                 im = mlfourd.NIfTI( ...
                     mlcaster.CasterStrategy.image2NIfTId(im));
             end
         end
-        function im   = image2NiiBrowser(im)
+        function im = image2NiiBrowser(im)
             if (~isa(im, 'mlfourd.NiiBrowser'))
                 im = mlfourd.NiiBrowser( ...
                     mlcaster.CasterStrategy.image2NIfTI(im));
             end
         end  
-        function niid = image2NIfTId(im)
-            import mlfourd.*;
-            if (isnumeric(im))
-                niid = NIfTId(im, ...
-                    sprintf('CasterStrategy_image2NIfTId_D%s', datestr(now,30))); 
-                return
-            end
-            if (isa(im, 'mlsurfer.MGH'))
-                niid = im.niftid;
-                return
-            end
+        function im = image2NIfTId(im)
             if (isa(im, 'mlfourd.ImagingContext'))
-                niid = im.niftid; 
+                im = im.niftid; 
                 return
             end
-            if (isa(im, 'mlfourd.ImagingComponent'))
-                niid = NIfTId(im.cached); 
-                return
-            end
-            niid = NIfTId(im);
-        end   
-        function im   = image2MGH(im)
-            if (~isa(im, 'mlsurfer.MGH'))
-                im = mlsurfer.MGH( ...
-                    mlcaster.CasterStrategy.image2NIfTId(im));
-                return
+            if (~isa(im, 'mlfourd.NIfTId'))
+                im = mlfourd.NIfTId(im);
             end
         end
-        function im   = image2ImagingContext(im)
+        function im = image2ImagingContext(im)
             if (~isa(im, 'mlfourd.ImagingContext'))
-                im = mlfourd.ImagingContext( ...
-                    mlcaster.CasterStrategy.image2NIfTId(im));
-                return
-            end
-        end
-        function im   = image2ImagingComponent(im)
-            if (~isa(im, 'mlfourd.ImagingComponent'))                
-                im = mlfourd.ImagingComponent.load( ...
-                    mlcaster.CasterStrategy.image2NIfTId(im));
-                return
+                im = mlfourd.ImagingContext(im);
             end
         end
     end
@@ -196,15 +157,9 @@ classdef CasterStrategy
         function dnii = cast2NIfTId(this)
             dnii = this.image2NIfTId(this.cast2image);
         end
-        function mgh  = cast2MGH(this)
-            mgh = this.image2MGH(this.cast2image);
-        end
         function im   = cast2ImagingContext(this)
             im = this.image2ImagingContext(this.imagingObject);
         end
-        function im   = cast2ImagingComponent(this)
-            im = this.image2ImagingComponent(this.cast2image);
-        end  
         
         function this = CasterStrategy(imobj)
             assert(mlcaster.CasterStrategy.isSupportedImage(imobj));

@@ -26,7 +26,7 @@ classdef CasterContext < handle
             %                              mlpatterns.ValueList, mlfourd.NIfTI, mlfourd.NIfTId, mlfourd.NiiBrowser, ...
             %                              mlfourd.ImagingComponent, mlfourd.ImagingContext, ...
             %                ^ target type named as string
-            %                  e. g.:  char, numeric_types, abstract_image_types
+            %                  e. g.:  char, numeric_types, mlfourd.FourdRegistry.isSupportedImageType
             %  ^ image-object casted to target type
             
             if (isa(imobj, newtyp))

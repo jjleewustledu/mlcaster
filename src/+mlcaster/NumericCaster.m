@@ -20,7 +20,6 @@ classdef NumericCaster < mlcaster.CasterStrategy
             pth = pwd;
         end
         function imobj = get.imagingObject(this)
-            assert(isnumeric_type(this.imagingObject_));
             imobj = this.imagingObject_;
         end
         

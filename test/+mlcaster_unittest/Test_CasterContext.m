@@ -13,7 +13,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
  	%% It was developed on Matlab 8.5.0.197613 (R2015a) for MACI64.
  	
 	properties
- 		registry
  		testObj
  	end
 
@@ -23,7 +22,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
         aNIfTI
         aNIfTId
         aNiiBrowser
-        anImagingComponent
     end
 
     properties (Dependent, Hidden)
@@ -36,7 +34,7 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
             c = this.t1_fqfn;
         end
         function n = get.aNumeric(this)
-            n = double(this.theNIfTI.img);
+            n = this.theNIfTI.img;
         end
         function nb = get.aNIfTI(this)
             nb = this.theNIfTI;
@@ -46,9 +44,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
         end
         function nb = get.aNiiBrowser(this)
             nb = mlfourd.NiiBrowser(this.theNIfTI);
-        end
-        function ic = get.anImagingComponent(this)
-            ic = mlfourd.ImagingComponent.load(this.theNIfTI);
         end
         function nii = get.theNIfTI(this)
             if (isempty(this.theNIfTI_))
@@ -102,11 +97,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
             this.verifyEqual(this.aNiiBrowser, ...
                 CasterContext.imcast(this.aChar, 'mlfourd.NiiBrowser'));
         end
-        function test_imcast_char2imagingcomponent(this)
-            import mlcaster.*;
-            this.verifyEqual(this.anImagingComponent, ...
-                CasterContext.imcast(this.aChar, 'mlfourd.ImagingComponent'));
-        end
         
         function test_imcast_numeric2fileprefix(this)
             import mlcaster.*;
@@ -136,10 +126,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
             import mlcaster.*;
  			this.verifyTrue(isa(CasterContext.imcast(this.aNumeric, 'mlfourd.NiiBrowser'), 'mlfourd.NiiBrowser'));
         end
-        function test_imcast_numeric2imagingcomponent(this)
-            import mlcaster.*;
- 			this.verifyTrue(isa(CasterContext.imcast(this.aNumeric, 'mlfourd.ImagingComponent'), 'mlfourd.ImagingComponent'));
-        end
         
         function test_imcast_nifti2fileprefix(this)
             import mlcaster.*;
@@ -164,10 +150,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
         function test_imcast_nifti2niibrowser(this)
             import mlcaster.*;
  			this.verifyTrue(isa(CasterContext.imcast(this.aNIfTI, 'mlfourd.NiiBrowser'), 'mlfourd.NiiBrowser'));
-        end
-        function test_imcast_nifti2imagingcomponent(this)
-            import mlcaster.*;
- 			this.verifyTrue(isa(CasterContext.imcast(this.aNIfTI, 'mlfourd.ImagingComponent'), 'mlfourd.ImagingComponent'));
         end
         function test_imcast_nifti2niftid(this)
             import mlcaster.*;
@@ -198,10 +180,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
             import mlcaster.*;
  			this.verifyTrue(isa(CasterContext.imcast(this.aNIfTId, 'mlfourd.NiiBrowser'), 'mlfourd.NiiBrowser'));
         end
-        function test_imcast_niftid2imagingcomponent(this)
-            import mlcaster.*;
- 			this.verifyTrue(isa(CasterContext.imcast(this.aNIfTId, 'mlfourd.ImagingComponent'), 'mlfourd.ImagingComponent'));
-        end
         function test_imcast_niftid2nifti(this)
             import mlcaster.*;
  			this.verifyTrue(isa(CasterContext.imcast(this.aNIfTId, 'mlfourd.NIfTI'), 'mlfourd.NIfTI'));
@@ -218,27 +196,6 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
         function test_imcast_niibrowser2niftid(this)
             import mlcaster.*;
  			this.verifyTrue(isa(CasterContext.imcast(this.aNiiBrowser, 'mlfourd.NIfTId'), 'mlfourd.NIfTId'));
-        end
-        function test_imcast_niibrowser2imagingcomponent(this)
-            import mlcaster.*;
- 			this.verifyTrue(isa(CasterContext.imcast(this.aNiiBrowser, 'mlfourd.ImagingComponent'), 'mlfourd.ImagingComponent'));
-        end
-        
-        function test_imcast_imagingcomponent2numeric(this)
-            import mlcaster.*;
- 			this.verifyTrue(isnumeric(CasterContext.imcast(this.anImagingComponent, 'double')));
-        end
-        function test_imcast_imagingcomponent2nifti(this)
-            import mlcaster.*;
- 			this.verifyTrue(isa(CasterContext.imcast(this.anImagingComponent, 'mlfourd.NIfTI'), 'mlfourd.NIfTI'));
-        end
-        function test_imcast_imagingcomponent2niftid(this)
-            import mlcaster.*;
- 			this.verifyTrue(isa(CasterContext.imcast(this.anImagingComponent, 'mlfourd.NIfTId'), 'mlfourd.NIfTId'));
-        end
-        function test_imcast_imagingcomponent2niibrowser(this)
-            import mlcaster.*;
- 			this.verifyTrue(isa(CasterContext.imcast(this.anImagingComponent, 'mlfourd.NiiBrowser'), 'mlfourd.NiiBrowser'));
         end
  	end
 

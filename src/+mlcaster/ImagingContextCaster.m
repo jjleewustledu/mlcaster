@@ -12,26 +12,40 @@ classdef ImagingContextCaster < mlcaster.CasterStrategy
     properties (Dependent)
         defaultPath
         imagingObject
-        nifti
+        mgh
+        niftic
         niftid
+        numericalNiftid
         composite
     end
     
     methods
         function pth   = get.defaultPath(this) 
+            assert(isa(this.imagingObject_, 'mlfourd.ImagingContext'));
             pth = fileparts(this.imagingObject.fqfilename);
         end
         function imobj = get.imagingObject(this)
             assert(isa(this.imagingObject_, 'mlfourd.ImagingContext'));
             imobj = this.imagingObject_.clone;
         end
-        function nii   = get.nifti(this)
-            nii = this.imagingObject.nifti;
+        function nii   = get.mgh(this)
+            assert(isa(this.imagingObject_, 'mlfourd.ImagingContext'));
+            nii = this.imagingObject.mgh;
+        end
+        function nii   = get.niftic(this)
+            assert(isa(this.imagingObject_, 'mlfourd.ImagingContext'));
+            nii = this.imagingObject.niftic;
         end
         function nii   = get.niftid(this)
+            assert(isa(this.imagingObject_, 'mlfourd.ImagingContext'));
             nii = this.imagingObject.niftid;
         end
+        function nii   = get.numericalNiftid(this)
+            assert(isa(this.imagingObject_, 'mlfourd.ImagingContext'));
+            nii = this.imagingObject.numericalNiftid;
+        end
         function imcmp = get.composite(this)
+            assert(isa(this.imagingObject_, 'mlfourd.ImagingComponent'));
             imcmp = this.imagingObject.composite;
         end
         
@@ -45,6 +59,7 @@ classdef ImagingContextCaster < mlcaster.CasterStrategy
     
 	methods  (Access = 'protected')
         function fp   = cast2fqfileprefix(this)
+            assert(isa(this.imagingObject_, 'mlfourd.ImagingContext'));
             fp = this.imagingObject.fqfileprefix;
         end
         function im   = cast2image(this)

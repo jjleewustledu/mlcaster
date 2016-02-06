@@ -20,7 +20,6 @@ classdef NiiBrowserCaster < mlcaster.CasterStrategy
             pth = fileparts(this.imagingObject.fqfilename);
         end
         function imobj = get.imagingObject(this)
-            assert(isa(this.imagingObject_, 'mlfourd.NiiBrowser'));
             imobj = this.imagingObject_;
         end
         
@@ -34,6 +33,7 @@ classdef NiiBrowserCaster < mlcaster.CasterStrategy
     
 	methods (Access = 'protected')
         function fp   = cast2fqfileprefix(this)
+            assert(isa(this.imagingObject_, 'mlfourd.NiiBrowser'));
             fp = this.imagingObject.fqfileprefix;
         end
         function im   = cast2image(this)

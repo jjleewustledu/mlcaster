@@ -23,7 +23,9 @@ classdef CharCaster < mlcaster.CasterStrategy
         function imobj = get.imagingObject(this)
             assert(ischar(this.imagingObject_));
             if (~lstrfind(this.imagingObject_, '.mgz') && ~lstrfind(this.imagingObject_, '.mgh')) %% KLUDGE
-                imobj = filename(this.imagingObject_); return; end
+                imobj = filename(this.imagingObject_); 
+                return
+            end
             imobj = this.imagingObject_; 
         end
         
@@ -37,7 +39,7 @@ classdef CharCaster < mlcaster.CasterStrategy
     
 	methods (Access = 'protected')
         function fp   = cast2fqfileprefix(this)
-            [pth,fp] = filepartsx(this.imagingObject, mlfourd.INIfTI.FILETYPE_EXT);
+            [pth,fp] = myfileparts(this.imagingObject);
             if (isempty(pth))
                 pth = this.defaultPath; end
             fp = fullfile(pth, fp);
