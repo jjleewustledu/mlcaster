@@ -202,7 +202,10 @@ classdef Test_CasterContext < mlfourd_unittest.Test_mlfourd
  	methods (TestClassSetup)
  		function setupCasterContext(this)
             cd(this.fslPath); 
-            mlbash(sprintf('rm %s', fullfile(this.fslPath, '*.nii')));
+            dt = mlsystem.DirTool(fullfile(this.fslPath, '*.nii'));
+            if (dt.length > 0)
+                mlbash(sprintf('rm %s', fullfile(this.fslPath, '*.nii')));
+            end
  		end
  	end
 

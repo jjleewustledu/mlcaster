@@ -55,7 +55,10 @@ classdef Test_CasterStrategy < mlfourd_unittest.Test_mlfourd
  		function setupCasterStrategy(this)
             cd(this.fslPath); 
             this.casterStrat = mlcaster.CasterStrategy.newStrategy(this.t1_fqfn);
-            mlbash(sprintf('rm %s', fullfile(this.fslPath, '*_shadowreg_*')));
+            dt = mlsystem.DirTool(fullfile(this.fslPath, '*_shadowreg_*'));
+            if (dt.length > 0)
+                mlbash(sprintf('rm %s', fullfile(this.fslPath, '*_shadowreg_*')));
+            end
  		end
  	end
 
