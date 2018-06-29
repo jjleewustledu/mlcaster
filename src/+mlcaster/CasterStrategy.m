@@ -143,7 +143,7 @@ classdef CasterStrategy
             fn = [fn e];
         end
         function fn   = cast2fqfilename(this)
-            fn = [this.cast2fqfileprefix mlfourd.INIfTI.FILETYPE_EXT];
+            fn = [this.cast2fqfileprefix mlfourd.NIfTId.FILETYPE_EXT];
         end
         function A    = cast2numeric(this)
             A = this.image2numeric(this.cast2image);

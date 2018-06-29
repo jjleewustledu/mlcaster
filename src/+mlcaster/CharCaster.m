@@ -45,7 +45,7 @@ classdef CharCaster < mlcaster.CasterStrategy
             fp = fullfile(pth, fp);
         end        
         function im   = cast2image(this)
-            im = mlfourd.NIfTI.load([this.cast2fqfileprefix mlfourd.INIfTI.FILETYPE_EXT]);
+            im = mlfourd.NIfTI.load([this.cast2fqfileprefix mlfourd.NIfTId.FILETYPE_EXT]);
         end
     end 
     
