@@ -48,19 +48,13 @@ classdef CasterStrategy
                     error('mlcaster:unsupportedTypeClass', 'class(CasterStrategy.newStrategy.im)->%s', class(ip.Results.imobj));
             end
         end
-        function tf   = isSupportedType(typ)
-            tf = mlfourd.FourdRegistry.isSupportedImageType(typ);
-        end
-        function tf   = isSupportedImage(im)
-            tf =  mlfourd.FourdRegistry.isSupportedImage(im);
-        end
     end
     
     methods
         function imobj = castto(this, newtyp)
             import mlcaster.*;
             ip = inputParser;
-            addOptional(ip, 'newtyp', 'fqfilename', @CasterStrategy.isSupportedType)
+            addOptional(ip, 'newtyp', 'fqfilename')
             parse(ip, newtyp);
             
             switch (ip.Results.newtyp)
